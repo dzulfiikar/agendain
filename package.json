@@ -3,13 +3,25 @@
   "version": "1.0.40",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@prisma/client": "^4.15.0",
+    "elysia": "latest",
+    "winston": "^3.9.0"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.6.5",
+    "bun-types": "latest",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
+    "prisma": "^4.15.0"
   },
-  "module": "src/index.js"
+  "module": "src/index.js",
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
 }
