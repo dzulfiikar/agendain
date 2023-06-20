@@ -1,6 +1,6 @@
 import { RegisterDTO } from '../../../adapters/controllers/dtos/RegisterDTO';
-import { User } from '../../entities/User';
+import { RegisterPresentationData } from '../../../adapters/presenters/presenter-data/RegisterPresentationData';
 
 export interface RegisterInteractor {
-  execute(registerDTO: RegisterDTO): Promise<User>;
+  execute(registerDTO: RegisterDTO): Promise<RegisterPresentationData>;
 }

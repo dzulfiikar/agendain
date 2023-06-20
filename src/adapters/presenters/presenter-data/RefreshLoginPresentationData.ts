@@ -1,4 +1,4 @@
-export interface LoginPresentationData {
+export interface RefreshLoginPresentationData {
   user: {
     email: string;
     name: string;

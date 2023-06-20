@@ -1,8 +1,11 @@
 export class SuccessResponse extends Response {
-  constructor(body: any) {
+  constructor(body?: any, message?: string) {
     super(
       JSON.stringify({
-        body,
+        code: 200,
+        status: 'OK',
+        message: message || null,
+        value: body,
       }),
       {
         status: 200,

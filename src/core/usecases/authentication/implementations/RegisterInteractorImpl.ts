@@ -1,14 +1,14 @@
 import { RegisterDTO } from '../../../../adapters/controllers/dtos/RegisterDTO';
 import { UserGateway } from '../../../../adapters/gateways/UserGateway';
+import { RegisterPresentationData } from '../../../../adapters/presenters/presenter-data/RegisterPresentationData';
 import { BadRequestError } from '../../../../frameworks/http/errors/BadRequestError';
-import { User } from '../../../entities/User';
 
 import { RegisterInteractor } from '../RegisterInteractor';
 
 export class RegisterInteractorImpl implements RegisterInteractor {
   constructor(private readonly userGateway: UserGateway) {}
 
-  async execute(registerDTO: RegisterDTO): Promise<User> {
+  async execute(registerDTO: RegisterDTO): Promise<RegisterPresentationData> {
     const checkUserExists = await this.userGateway.getUserByEmail(registerDTO.email);
     if (checkUserExists) throw new BadRequestError(null, 'Email already exists');
 
@@ -18,6 +18,11 @@ export class RegisterInteractorImpl implements RegisterInteractor {
     });
 
     const user = await this.userGateway.createUser(registerDTO);
-    return user!;
+    return {
+      name: user!.name,
+      email: user!.email,
+      created_at: user!.createdAt,
+      updated_at: user!.updatedAt,
+    }!;
   }
 }

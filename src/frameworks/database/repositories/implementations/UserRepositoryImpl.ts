@@ -5,6 +5,16 @@ import { UserRepository } from '../UserRepository';
 export class UserRepositoryImpl implements UserRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
+  async getUserById(id: string): Promise<User | null> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: id,
+      },
+    });
+
+    return user;
+  }
+
   async createUser(registerDTO: RegisterDTO): Promise<User> {
     try {
       const user: User = await this.prisma.user.create({

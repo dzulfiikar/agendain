@@ -1,19 +1,22 @@
-import { User } from '../../../core/entities/User';
 import { CreatedResponse } from '../../../frameworks/http/responses/CreatedResponse';
+import { SuccessResponse } from '../../../frameworks/http/responses/SuccessResponse';
 import { AuthenticationPresenter } from '../AuthenticationPresenter';
+import { LoginPresentationData } from '../presenter-data/LoginPresentationData';
+import { ProfilePresentationData } from '../presenter-data/ProfilePresentationData';
+import { RefreshLoginPresentationData } from '../presenter-data/RefreshLoginPresentationData';
 import { RegisterPresentationData } from '../presenter-data/RegisterPresentationData';
 
 export class AuthenticationPresenterImpl implements AuthenticationPresenter {
-  presentRegister(user: User): CreatedResponse {
-    return new CreatedResponse({
-      email: user.email,
-      name: user.name,
-      created_at: user.createdAt,
-      updated_at: user.updatedAt,
-    } as RegisterPresentationData);
+  presentLogin(data: LoginPresentationData): SuccessResponse {
+    return new SuccessResponse(data);
   }
-
-  presentLogin(acessToken: string, refreshToken: string): any {
-    throw new Error('Method not implemented.');
+  presentRegister(data: RegisterPresentationData): CreatedResponse {
+    return new CreatedResponse(data);
+  }
+  presentProfile(data: ProfilePresentationData): SuccessResponse {
+    return new SuccessResponse(data);
+  }
+  presentRefreshLogin(data: RefreshLoginPresentationData): SuccessResponse {
+    return new SuccessResponse(data);
   }
 }
