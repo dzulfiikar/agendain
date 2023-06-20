@@ -4,11 +4,18 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --hot src/index.ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "mongo:generate": "bun x prisma generate --schema prisma-mongo/schema.prisma",
+    "mongo:push": "bun x prisma db push --schema prisma-mongo/schema.prisma",
+    "mongo:pull": "bun x prisma db pull --schema prisma-mongo/schema.prisma"
   },
   "dependencies": {
+    "@elysiajs/cookie": "^0.5.2",
+    "@elysiajs/jwt": "^0.5.3",
     "@prisma/client": "^4.15.0",
+    "bson": "^5.3.0",
     "elysia": "latest",
+    "jose": "^4.14.4",
     "winston": "^3.9.0"
   },
   "devDependencies": {
