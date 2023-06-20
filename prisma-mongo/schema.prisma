@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL_MONGODB")
+}
+
+type CreatedBy {
+  userId String @map("user_id")
+  name   String
+}
+
+type MeetingTime {
+  date  DateTime @db.Date
+  start DateTime
+  end   DateTime
+}
+
+type VotingTime {
+  date  DateTime @db.Date
+  start DateTime
+  end   DateTime
+}
+
+type MeetingParticipant {
+  userId String @map("user_id")
+  name   String
+}
+
+model MeetingAgenda {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  createdBy   CreatedBy @map("created_by")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  Meeting     Meeting?  @relation(fields: [meetingId], references: [id])
+  meetingId   String?   @db.ObjectId
+
+  @@map("meeting_agendas")
+}
+
+model Meeting {
+  id                  String               @id @default(auto()) @map("_id") @db.ObjectId
+  title               String
+  description         String
+  location            String
+  meetingTime         MeetingTime          @map("meeting_time")
+  votingTime          VotingTime           @map("voting_time")
+  meetingParticipants MeetingParticipant[] @map("meeting_participants")
+  meetingAgendas      MeetingAgenda[]
+  createdBy           CreatedBy            @map("created_by")
+  createdAt           DateTime             @default(now()) @map("created_at")
+  updatedAt           DateTime             @updatedAt @map("updated_at")
+
+  @@unique([meetingParticipants.userId])
+  @@map("meetings")
+}
