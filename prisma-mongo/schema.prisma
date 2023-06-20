@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/mongo/client"
 }
 
 datasource db {
@@ -10,9 +11,25 @@ datasource db {
   url      = env("DATABASE_URL_MONGODB")
 }
 
-type CreatedBy {
-  userId String @map("user_id")
-  name   String
+model User {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String          @unique @map("user_id")
+  name          String
+  MeetingAgenda MeetingAgenda[]
+  Meeting       Meeting[]
+
+  @@map("users")
+}
+
+model UserToken {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @map("user_id")
+  refreshToken String   @unique
+  expiresAt    DateTime @map("expires_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("user_tokens")
 }
 
 type MeetingTime {
@@ -33,14 +50,15 @@ type MeetingParticipant {
 }
 
 model MeetingAgenda {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  createdBy   CreatedBy @map("created_by")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  Meeting     Meeting?  @relation(fields: [meetingId], references: [id])
-  meetingId   String?   @db.ObjectId
+  createdBy   User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  Meeting     Meeting? @relation(fields: [meetingId], references: [id])
+  meetingId   String?  @db.ObjectId
+  userId      String   @db.ObjectId
 
   @@map("meeting_agendas")
 }
@@ -54,9 +72,10 @@ model Meeting {
   votingTime          VotingTime           @map("voting_time")
   meetingParticipants MeetingParticipant[] @map("meeting_participants")
   meetingAgendas      MeetingAgenda[]
-  createdBy           CreatedBy            @map("created_by")
+  createdBy           User                 @relation(fields: [userId], references: [id])
   createdAt           DateTime             @default(now()) @map("created_at")
   updatedAt           DateTime             @updatedAt @map("updated_at")
+  userId              String               @db.ObjectId
 
   @@unique([meetingParticipants.userId])
   @@map("meetings")
