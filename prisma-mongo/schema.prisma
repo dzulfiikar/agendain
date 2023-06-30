@@ -12,11 +12,16 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String          @unique @map("user_id")
-  name          String
-  MeetingAgenda MeetingAgenda[]
-  Meeting       Meeting[]
+  id                 String          @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String          @unique @map("user_id")
+  name               String
+  profile_color_code String          @map("profile_color_code")
+  profile_first_char String          @map("profile_first_char")
+  profile_pic        String          @default("null") @map("profile_pic")
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+  MeetingAgenda      MeetingAgenda[]
+  Meeting            Meeting[]
 
   @@map("users")
 }

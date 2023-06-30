@@ -35,6 +35,8 @@ export default class LoginInteractorImpl implements LoginInteractor {
       user: {
         email: user.email,
         name: user.name,
+        profile_color_code: user.profileColorCode,
+        profile_first_char: user.profileFirstChar,
         created_at: user.createdAt,
         updated_at: user.updatedAt,
       },

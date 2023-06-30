@@ -11,10 +11,12 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String   @db.VarChar(255)
-  password  String   @db.VarChar(255)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String   @id @default(uuid())
+  email              String   @unique
+  name               String   @db.VarChar(255)
+  password           String   @db.VarChar(255)
+  profile_color_code String   @default("000000") @db.VarChar(255)
+  profile_first_char String   @default("A") @db.Char(1)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }

@@ -2,6 +2,7 @@ import jwt from '@elysiajs/jwt';
 import Elysia from 'elysia';
 import { AuthenticationControllerImpl } from '../../../../adapters/controllers/implementations/AuthenticationControllerImpl';
 import { UserGatewayImpl } from '../../../../adapters/gateways/implementations/UserGatewayImpl';
+import { UserMongoGatewayImpl } from '../../../../adapters/gateways/implementations/UserMongoGatewayImpl';
 import UserTokenGatewayImpl from '../../../../adapters/gateways/implementations/UserTokenGatewayImpl';
 import { AuthenticationPresenterImpl } from '../../../../adapters/presenters/implementations/AuthenticationPresenterImpl';
 import LoginInteractorImpl from '../../../../core/usecases/authentication/implementations/LoginInteractorImpl';
@@ -11,12 +12,16 @@ import { RegisterInteractorImpl } from '../../../../core/usecases/authentication
 import { jwtToUserId } from '../../../../utils/jwt.util';
 import mongoPrisma from '../../../database/prisma/MongoPrismaClient';
 import prisma from '../../../database/prisma/PrismaClient';
+import { UserMongoRepositoryImpl } from '../../../database/repositories/implementations/UserMongoRepository';
 import { UserRepositoryImpl } from '../../../database/repositories/implementations/UserRepositoryImpl';
 import UserTokenRepositoryImpl from '../../../database/repositories/implementations/UserTokenRepositoryImpl';
 import { authenticationHandler } from '../../handlers/user-authenticated.handler';
 
 const authenticationController = new AuthenticationControllerImpl(
-  new RegisterInteractorImpl(new UserGatewayImpl(new UserRepositoryImpl(prisma))),
+  new RegisterInteractorImpl(
+    new UserGatewayImpl(new UserRepositoryImpl(prisma)),
+    new UserMongoGatewayImpl(new UserMongoRepositoryImpl(mongoPrisma))
+  ),
   new LoginInteractorImpl(
     new UserGatewayImpl(new UserRepositoryImpl(prisma)),
     new UserTokenGatewayImpl(new UserTokenRepositoryImpl(mongoPrisma))

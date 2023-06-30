@@ -3,6 +3,8 @@ export interface User {
   name: string;
   email: string;
   password: string;
+  profileColorCode: string;
+  profileFirstChar: string;
   createdAt: Date;
   updatedAt: Date;
 }

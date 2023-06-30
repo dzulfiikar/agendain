@@ -12,5 +12,7 @@ export class BadRequestError extends Error {
       message: message || 'Bad Request',
       value: data,
     });
+
+    Error.captureStackTrace(this, this.constructor);
   }
 }

@@ -8,15 +8,44 @@ export class UserGatewayImpl implements UserGateway {
 
   async getUserById(id: string): Promise<User | null> {
     const user = await this.userRepository.getUserById(id);
-    return user;
+    return {
+      id: user!.id,
+      name: user!.name,
+      email: user!.email,
+      password: user!.password,
+      profileColorCode: user!.profile_color_code,
+      profileFirstChar: user!.profile_first_char,
+      createdAt: user!.createdAt,
+      updatedAt: user!.updatedAt,
+    };
   }
 
   async getUserByEmail(email: string): Promise<User | null> {
     const user = await this.userRepository.getUserByEmail(email);
-    return user;
+    if (!user) return null;
+    return {
+      id: user!.id,
+      name: user!.name,
+      email: user!.email,
+      password: user!.password,
+      profileColorCode: user!.profile_color_code,
+      profileFirstChar: user!.profile_first_char,
+      createdAt: user!.createdAt,
+      updatedAt: user!.updatedAt,
+    };
   }
 
   async createUser(registerDTO: RegisterDTO): Promise<User> {
-    return await this.userRepository.createUser(registerDTO);
+    const user = await this.userRepository.createUser(registerDTO);
+    return {
+      id: user!.id,
+      name: user!.name,
+      email: user!.email,
+      password: user!.password,
+      profileColorCode: user!.profile_color_code,
+      profileFirstChar: user!.profile_first_char,
+      createdAt: user!.createdAt,
+      updatedAt: user!.updatedAt,
+    };
   }
 }

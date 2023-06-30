@@ -22,6 +22,8 @@ export class UserRepositoryImpl implements UserRepository {
           name: registerDTO.name,
           email: registerDTO.email,
           password: registerDTO.password,
+          profile_color_code: '#' + Math.floor(Math.random() * 16777215).toString(16),
+          profile_first_char: registerDTO.name.charAt(0).toUpperCase(),
         },
       });
       return user;
