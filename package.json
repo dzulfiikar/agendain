@@ -5,6 +5,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --hot src/index.ts",
     "prepare": "husky install",
+    "sql:generate": "bun x prisma generate --schema prisma/schema.prisma",
+    "sql:push": "bun x prisma db push --schema prisma/schema.prisma",
     "mongo:generate": "bun x prisma generate --schema prisma-mongo/schema.prisma",
     "mongo:push": "bun x prisma db push --schema prisma-mongo/schema.prisma",
     "mongo:pull": "bun x prisma db pull --schema prisma-mongo/schema.prisma"

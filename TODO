@@ -1,0 +1,8 @@
+1. Add logic to insert new user data in mongo when a new user is registered ✅
+2. Add usecase for creating meeting in as PIC
+   - add meeting code auto generation capability
+3. Add usecase for delete meeting as PIC
+4. Add usecase for joining meeting as participant.
+5. Add usecase for submitting meeting agenda as participant
+   - make sure the submission is available until voting time is opened.
+6. Add usecase for managing the agenda before voting time is opened as PIC.
